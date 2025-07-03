@@ -1,0 +1,56 @@
+  @media screen and (max-width: 507px) { /* CSS variables can't be used here, might not work for different video sizes. Should be adjusted to account for margins too */
+  
+    .jp-video:not(.jp-state-full-screen) {
+      /* jplayer adds html styles on page load, so !important is needed to override them, not other CSS styles. Example: */
+      /*<div id="jquery_jplayer_1" class="jp-jplayer" style="width: 480px; height: 270px;">*/
+
+      /* Overrides the fixed width and height of html elements. This is needed in a few places below */
+      width: 100% !important;
+      height: auto !important;
+  
+      .jp-jplayer {
+        line-height: 0;/*hides a black line*/
+      }
+
+      .jp-jplayer,
+      .jp-jplayer > img[style*="display: inline"],/* initial page load before a video has played */
+      .jp-jplayer > img[style*="display: none"] ~ video /* play was pressed and video is showing */ {
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      .jp-video-play-icon {
+        /* Not a final solution, but this puts the play icon lower, rather than higher like it is when width is lowered */
+        margin-top: unset;
+      }
+    }
+  
+    /* Controls need to be adjusted even in fullscreen, if they don't rotate */
+    .jp-controls-holder {
+      display: flex; /* This helps center the pause/play/etc. buttons */
+      width: 100%; /* fixed width in jplayer css */
+    }
+    .jp-controls {
+      margin: 0 auto !important; /* Also helps keep the play/pause buttons centered */
+    }
+  }
+  
+  /* Puts the volume, play/pause and fullscreen buttons at separate heights so they fit on smaller screens */
+  @media screen and (max-width: 434px) {/* based off jp-controls-holder width, so this number can stay fixed(hopefully) */
+    .jp-controls-holder {
+      height: 96px; /* Normally fixed height, so make room vertically. Can stay as a fixed number */
+    }
+  
+    .jp-volume-controls {
+      top: 55% !important;
+      left: 65% !important;
+      transform: translate(-50%, -50%);
+    }
+  
+    .jp-toggles {
+      /* right: unset !important; */
+      top: 74% !important;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
